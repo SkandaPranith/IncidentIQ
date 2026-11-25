@@ -9,7 +9,11 @@ try {
 
     if (-not (Test-Path "target\agentops-0.0.1-SNAPSHOT.jar")) {
         Write-Host "Backend JAR not found; packaging application..." -ForegroundColor Yellow
-        mvn package -DskipTests "-Dmaven.repo.local=D:\m2_repo"
+        if (Test-Path "D:\m2_repo") {
+            mvn package -DskipTests "-Dmaven.repo.local=D:\m2_repo"
+        } else {
+            mvn package -DskipTests
+        }
         if ($LASTEXITCODE -ne 0) {
             Write-Error "Maven package failed."
             exit $LASTEXITCODE

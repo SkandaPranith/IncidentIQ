@@ -10,7 +10,11 @@ if "%JWT_EXPIRATION_MS%"=="" set JWT_EXPIRATION_MS=86400000
 
 if not exist "target\agentops-0.0.1-SNAPSHOT.jar" (
     echo Backend JAR not found; packaging application...
-    call mvn package -DskipTests -Dmaven.repo.local=D:\m2_repo
+    if exist "D:\m2_repo" (
+        call mvn package -DskipTests -Dmaven.repo.local=D:\m2_repo
+    ) else (
+        call mvn package -DskipTests
+    )
     if errorlevel 1 exit /b 1
 )
 
